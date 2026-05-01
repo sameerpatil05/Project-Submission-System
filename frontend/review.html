@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Review Project — ProjectHub</title>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+<nav class="navbar">
+  <div class="container">
+    <a href="/" class="navbar-brand"><span>🎓</span> ProjectHub</a>
+    <div class="navbar-user">
+      <div><div class="user-name" id="nav-name">—</div><div class="user-role"></div></div>
+      <div class="user-avatar" id="nav-avatar">?</div>
+      <button class="btn btn-secondary btn-sm logout-btn">Logout</button>
+    </div>
+  </div>
+</nav>
+<div class="main-content container" style="max-width:960px;margin:0 auto;padding:2rem 1.5rem;">
+  <div class="mb-3 flex justify-between items-center">
+    <div>
+      <h2 id="project-title">Loading…</h2>
+      <p id="project-meta" class="mt-1"></p>
+    </div>
+    <a id="back-btn" href="/" class="btn btn-secondary">← Back</a>
+  </div>
+  <div class="grid-2" style="gap:1.5rem;align-items:start;">
+    <!-- Left -->
+    <div>
+      <div class="card mb-3">
+        <div class="card-header"><div class="card-title">📋 Project Info</div></div>
+        <div class="card-body">
+          <div id="project-info"><div class="page-loading"><div class="spinner" style="border-color:#e2e8f0;border-top-color:#4f46e5;width:36px;height:36px;"></div></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">📜 Version History</div></div>
+        <div class="card-body"><div class="version-timeline" id="version-list">Loading…</div></div>
+      </div>
+    </div>
+    <!-- Right -->
+    <div>
+      <!-- Review form (teacher only — hidden for students by review.js) -->
+      <div class="card mb-3" id="review-form-card">
+        <div class="card-header"><div class="card-title">✍️ Submit Review</div></div>
+        <div class="card-body">
+          <div id="review-alert" class="hidden"></div>
+          <div class="form-group">
+            <label class="form-label">Comment <span class="required">*</span></label>
+            <textarea id="r-comment" class="form-control" rows="3" placeholder="Your review comment…"></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Detailed Feedback</label>
+            <textarea id="r-feedback" class="form-control" rows="3" placeholder="Suggestions, improvements…"></textarea>
+          </div>
+          <div class="grid-2">
+            <div class="form-group">
+              <label class="form-label">Marks (0–100)</label>
+              <input type="number" id="r-marks" class="form-control" min="0" max="100" placeholder="Score"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Decision</label>
+              <select id="r-status" class="form-control form-select">
+                <option value="reviewed">Reviewed</option>
+                <option value="approved">Approved ✅</option>
+                <option value="rejected">Rejected ❌</option>
+                <option value="resubmit">Needs Resubmission 🔄</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn btn-primary btn-block" id="review-btn" onclick="submitReview()">✅ Submit Review</button>
+        </div>
+      </div>
+      <!-- Review history -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">💬 Review History</div>
+          <span id="review-count" class="badge" style="background:#e0e7ff;color:#3730a3;">0</span>
+        </div>
+        <div class="card-body" id="reviews-container">
+          <div class="page-loading"><div class="spinner" style="border-color:#e2e8f0;border-top-color:#4f46e5;width:36px;height:36px;"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Edit Review Modal -->
+<div class="modal-overlay" id="edit-review-modal">
+  <div class="modal">
+    <div class="modal-header"><div class="modal-title">✏️ Edit Review</div><button class="modal-close" onclick="closeModal('edit-review-modal')">✕</button></div>
+    <div class="modal-body">
+      <input type="hidden" id="edit-review-id"/>
+      <div id="edit-review-alert" class="hidden"></div>
+      <div class="form-group">
+        <label class="form-label">Comment <span class="required">*</span></label>
+        <textarea id="edit-r-comment" class="form-control" rows="3"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Detailed Feedback</label>
+        <textarea id="edit-r-feedback" class="form-control" rows="3"></textarea>
+      </div>
+      <div class="grid-2">
+        <div class="form-group">
+          <label class="form-label">Marks (0–100)</label>
+          <input type="number" id="edit-r-marks" class="form-control" min="0" max="100"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Decision</label>
+          <select id="edit-r-status" class="form-control form-select">
+            <option value="reviewed">Reviewed</option>
+            <option value="approved">Approved ✅</option>
+            <option value="rejected">Rejected ❌</option>
+            <option value="resubmit">Needs Resubmission 🔄</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('edit-review-modal')">Cancel</button>
+      <button class="btn btn-primary" id="edit-review-btn" onclick="saveEdit()">💾 Save Changes</button>
+    </div>
+  </div>
+</div>
+<script src="js/api.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/review.js"></script>
+</body>
+</html>

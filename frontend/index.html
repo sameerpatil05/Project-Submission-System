@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WT_Mini_Project — Login</title>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+<div class="auth-page">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <span class="logo-icon">🎓</span>
+      <h1>Project Submission System</h1>
+      <p>Project Submission &amp; Review System</p>
+    </div>
+    <div class="auth-tabs">
+      <div class="auth-tab active" data-tab="login">Sign In</div>
+      <div class="auth-tab"        data-tab="register">Register</div>
+    </div>
+    <div id="auth-alert" class="hidden"></div>
+    <!-- LOGIN -->
+    <div class="auth-form active" id="login-form">
+      <div class="form-group">
+        <label class="form-label">Email <span class="required">*</span></label>
+        <input type="email" id="login-email" class="form-control" placeholder="you@university.edu"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password <span class="required">*</span></label>
+        <input type="password" id="login-password" class="form-control" placeholder="Enter password"/>
+      </div>
+      <button class="btn btn-primary btn-block btn-lg" id="login-btn" onclick="handleLogin()">🔐 Sign In</button>
+      <p class="text-center text-muted mt-2" style="font-size:.85rem;">
+        No account? <a href="#" onclick="switchTab('register')" class="text-primary">Register</a>
+      </p>
+    </div>
+    <!-- REGISTER -->
+    <div class="auth-form" id="register-form">
+      <div class="form-group">
+        <label class="form-label">I am a <span class="required">*</span></label>
+        <div class="role-selector">
+          <div class="role-option selected" onclick="selectRole('student',this)">
+            <span class="role-icon">👨‍🎓</span><div class="role-name">Student</div>
+          </div>
+          <div class="role-option" onclick="selectRole('teacher',this)">
+            <span class="role-icon">👨‍🏫</span><div class="role-name">Teacher</div>
+          </div>
+        </div>
+        <input type="hidden" id="reg-role" value="student"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Full Name <span class="required">*</span></label>
+        <input type="text" id="reg-name" class="form-control" placeholder="John Doe"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email <span class="required">*</span></label>
+        <input type="email" id="reg-email" class="form-control" placeholder="you@university.edu"/>
+      </div>
+      <div class="form-group" id="enrollment-group">
+        <label class="form-label">Enrollment ID</label>
+        <input type="text" id="reg-enrollment" class="form-control" placeholder="STU2024001"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Department</label>
+        <select id="reg-department" class="form-control form-select">
+          <option value="">Select Department</option>
+          <option>Computer Science</option>
+          <option>Information Technology</option>
+          <option>Electronics</option>
+          <option>Mechanical</option>
+          <option>Civil</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password <span class="required">*</span></label>
+        <input type="password" id="reg-password" class="form-control" placeholder="Min. 6 characters"/>
+      </div>
+      <button class="btn btn-primary btn-block btn-lg" id="reg-btn" onclick="handleRegister()">🚀 Create Account</button>
+      <p class="text-center text-muted mt-2" style="font-size:.85rem;">
+        Have an account? <a href="#" onclick="switchTab('login')" class="text-primary">Sign In</a>
+      </p>
+    </div>
+  </div>
+</div>
+<script src="js/api.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/auth.js"></script>
+</body>
+</html>

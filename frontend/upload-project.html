@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Submit Project — ProjectHub</title>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+<nav class="navbar">
+  <div class="container">
+    <a href="/student-dashboard.html" class="navbar-brand"><span>🎓</span> ProjectHub</a>
+    <div class="navbar-user">
+      <div><div class="user-name" id="nav-name">—</div><div class="user-role"></div></div>
+      <div class="user-avatar" id="nav-avatar">?</div>
+      <button class="btn btn-secondary btn-sm logout-btn">Logout</button>
+    </div>
+  </div>
+</nav>
+<div class="dashboard-layout">
+  <aside class="sidebar">
+    <nav class="sidebar-nav">
+      <a href="/student-dashboard.html"><span class="icon">🏠</span> Dashboard</a>
+      <a href="/upload-project.html" class="active"><span class="icon">📤</span> Submit Project</a>
+    </nav>
+  </aside>
+  <main class="main-content">
+    <div class="mb-3">
+      <h2>📤 Submit New Project</h2>
+      <p class="text-muted">Fill in details and attach your project file.</p>
+    </div>
+    <div style="max-width:680px;">
+      <div class="card">
+        <div class="card-header"><div class="card-title">Project Details</div></div>
+        <div class="card-body">
+          <div id="submit-alert" class="hidden"></div>
+          <div class="form-group">
+            <label class="form-label">Project Title <span class="required">*</span></label>
+            <input type="text" id="proj-title" class="form-control" placeholder="e.g. AI Resume Screener"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Description <span class="required">*</span></label>
+            <textarea id="proj-desc" class="form-control" rows="4" placeholder="Goals, tech stack, approach…"></textarea>
+          </div>
+          <div class="grid-2">
+            <div class="form-group">
+              <label class="form-label">Category</label>
+              <select id="proj-category" class="form-control form-select">
+                <option value="General">General</option>
+                <option value="Web Development">Web Development</option>
+                <option value="Mobile App">Mobile App</option>
+                <option value="Machine Learning">Machine Learning</option>
+                <option value="Data Science">Data Science</option>
+                <option value="IoT">IoT</option>
+                <option value="Cybersecurity">Cybersecurity</option>
+                <option value="Cloud Computing">Cloud Computing</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Deadline</label>
+              <input type="date" id="proj-deadline" class="form-control"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Version Notes</label>
+            <input type="text" id="proj-version-notes" class="form-control" placeholder="Initial submission notes…"/>
+          </div>
+          <hr class="divider"/>
+          <div class="form-group">
+            <label class="form-label">Project File <span class="required">*</span></label>
+            <div class="file-drop" id="drop-zone" onclick="document.getElementById('proj-file').click()">
+              <div class="upload-icon">☁️</div>
+              <p><span class="browse">Click to browse</span> or drag &amp; drop here</p>
+              <p><small class="text-muted">PDF, ZIP, RAR, DOCX, PPTX, TXT, PNG, JPG — Max 50 MB</small></p>
+            </div>
+            <input type="file" id="proj-file" style="display:none"
+              accept=".pdf,.zip,.rar,.docx,.pptx,.ppt,.doc,.txt,.jpg,.jpeg,.png"
+              onchange="onFileSelect(this)"/>
+            <div id="file-info" class="hidden file-selected"></div>
+          </div>
+          <div id="upload-progress-wrap" class="hidden mb-2">
+            <div class="flex justify-between mb-1" style="font-size:.85rem;"><span>Uploading…</span><span id="progress-pct">0%</span></div>
+            <div class="progress"><div class="progress-bar" id="progress-bar" style="width:0%;"></div></div>
+          </div>
+          <div class="flex gap-2">
+            <button class="btn btn-primary btn-lg" id="submit-btn" onclick="handleSubmit()">📤 Submit Project</button>
+            <a href="/student-dashboard.html" class="btn btn-secondary btn-lg">Cancel</a>
+          </div>
+        </div>
+      </div>
+      <div class="card mt-3">
+        <div class="card-body">
+          <h4 class="mb-2">💡 Tips</h4>
+          <ul style="padding-left:1.25rem;color:var(--text-muted);font-size:.9rem;line-height:2.2;">
+            <li>Compress your project folder into a <strong>ZIP</strong> before uploading.</li>
+            <li>Include a <strong>README.md</strong> with setup instructions.</li>
+            <li>Add screenshots or a demo link in the description.</li>
+            <li>You can upload new versions at any time.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="js/api.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/upload.js"></script>
+</body>
+</html>

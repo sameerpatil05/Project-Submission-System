@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Dashboard — ProjectHub</title>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+<nav class="navbar">
+  <div class="container">
+    <a href="/student-dashboard.html" class="navbar-brand"><span>🎓</span> ProjectHub</a>
+    <div class="navbar-user">
+      <div><div class="user-name" id="nav-name">—</div><div class="user-role"></div></div>
+      <div class="user-avatar" id="nav-avatar">?</div>
+      <button class="btn btn-secondary btn-sm logout-btn">Logout</button>
+    </div>
+  </div>
+</nav>
+<div class="dashboard-layout">
+  <aside class="sidebar">
+    <nav class="sidebar-nav">
+      <a href="/student-dashboard.html" class="active"><span class="icon">🏠</span> Dashboard</a>
+      <a href="/upload-project.html"><span class="icon">📤</span> Submit Project</a>
+      <a href="#" onclick="showSection('my-projects')"><span class="icon">📁</span> My Projects</a>
+      <a href="#" onclick="showSection('reviews-section')"><span class="icon">💬</span> My Reviews</a>
+    </nav>
+  </aside>
+  <main class="main-content">
+    <div class="mb-3">
+      <h2>Welcome back, <span id="student-name">Student</span>! 👋</h2>
+      <p class="text-muted mt-1">Overview of your project submissions.</p>
+    </div>
+    <div class="grid-4 mb-3">
+      <div class="stat-card"><div class="stat-icon blue">📁</div><div><div class="stat-value" id="stat-total">—</div><div class="stat-label">Total Projects</div></div></div>
+      <div class="stat-card"><div class="stat-icon orange">⏳</div><div><div class="stat-value" id="stat-pending">—</div><div class="stat-label">Pending Review</div></div></div>
+      <div class="stat-card"><div class="stat-icon green">✅</div><div><div class="stat-value" id="stat-reviewed">—</div><div class="stat-label">Reviewed</div></div></div>
+      <div class="stat-card"><div class="stat-icon purple">⭐</div><div><div class="stat-value" id="stat-avg">—</div><div class="stat-label">Avg. Marks</div></div></div>
+    </div>
+    <!-- Projects -->
+    <div id="my-projects">
+      <div class="flex justify-between items-center mb-2">
+        <h3>My Projects</h3>
+        <a href="/upload-project.html" class="btn btn-primary btn-sm">➕ New Submission</a>
+      </div>
+      <div class="filter-bar">
+        <div class="search-box" style="flex:1;"><span class="search-icon">🔍</span>
+          <input type="text" id="search-input" class="form-control" placeholder="Search…" oninput="filterProjects()" style="padding-left:2.5rem;"/>
+        </div>
+        <select id="status-filter" class="form-control form-select" onchange="filterProjects()" style="width:auto;">
+          <option value="all">All Status</option>
+          <option value="pending">Pending</option>
+          <option value="under_review">Under Review</option>
+          <option value="reviewed">Reviewed</option>
+          <option value="approved">Approved</option>
+          <option value="rejected">Rejected</option>
+          <option value="resubmit">Resubmit</option>
+        </select>
+      </div>
+      <div id="projects-grid" class="grid-2">
+        <div class="page-loading" style="grid-column:1/-1;"><div class="spinner" style="border-color:#e2e8f0;border-top-color:#4f46e5;width:36px;height:36px;"></div></div>
+      </div>
+    </div>
+    <!-- Reviews -->
+    <div id="reviews-section" class="hidden">
+      <h3 class="mb-2">My Reviews &amp; Feedback</h3>
+      <div id="reviews-list"><div class="page-loading"><div class="spinner" style="border-color:#e2e8f0;border-top-color:#4f46e5;width:36px;height:36px;"></div></div></div>
+    </div>
+  </main>
+</div>
+<!-- Version Modal -->
+<div class="modal-overlay" id="version-modal">
+  <div class="modal">
+    <div class="modal-header"><div class="modal-title">📤 Upload New Version</div><button class="modal-close" onclick="closeModal('version-modal')">✕</button></div>
+    <div class="modal-body">
+      <div id="version-alert" class="hidden"></div>
+      <p class="text-muted mb-2" style="font-size:.9rem;">Uploading resets status to <strong>Pending</strong>.</p>
+      <div class="form-group">
+        <label class="form-label">Version Notes <span class="required">*</span></label>
+        <input type="text" id="version-notes" class="form-control" placeholder="What changed?"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">File <span class="required">*</span></label>
+        <div class="file-drop" id="version-drop" onclick="document.getElementById('version-file').click()">
+          <div class="upload-icon">📎</div><p>Click to choose or drag &amp; drop</p>
+        </div>
+        <input type="file" id="version-file" style="display:none" onchange="onVersionFileSelect(this)"/>
+        <div id="version-file-info" class="hidden file-selected"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('version-modal')">Cancel</button>
+      <button class="btn btn-primary" id="version-submit-btn" onclick="submitVersion()">📤 Upload</button>
+    </div>
+  </div>
+</div>
+<!-- Detail Modal -->
+<div class="modal-overlay" id="detail-modal">
+  <div class="modal" style="max-width:680px;">
+    <div class="modal-header"><div class="modal-title" id="detail-title">Project Details</div><button class="modal-close" onclick="closeModal('detail-modal')">✕</button></div>
+    <div class="modal-body" id="detail-body">Loading…</div>
+  </div>
+</div>
+<script src="js/api.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/student.js"></script>
+</body>
+</html>

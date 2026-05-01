@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Teacher Dashboard — ProjectHub</title>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+<nav class="navbar">
+  <div class="container">
+    <a href="/teacher-dashboard.html" class="navbar-brand"><span>🎓</span> ProjectHub</a>
+    <div class="navbar-user">
+      <div><div class="user-name" id="nav-name">—</div><div class="user-role"></div></div>
+      <div class="user-avatar" id="nav-avatar">?</div>
+      <button class="btn btn-secondary btn-sm logout-btn">Logout</button>
+    </div>
+  </div>
+</nav>
+<div class="dashboard-layout">
+  <aside class="sidebar">
+    <nav class="sidebar-nav">
+      <a href="/teacher-dashboard.html" class="active"><span class="icon">🏠</span> Dashboard</a>
+      <a href="#" onclick="showSection('all-projects')"><span class="icon">📁</span> All Projects</a>
+      <a href="#" onclick="showSection('my-reviews')"><span class="icon">💬</span> My Reviews</a>
+    </nav>
+  </aside>
+  <main class="main-content">
+    <div class="mb-3">
+      <h2>Teacher Dashboard 👨‍🏫</h2>
+      <p class="text-muted mt-1">Manage and review student project submissions.</p>
+    </div>
+    <div class="grid-4 mb-3">
+      <div class="stat-card"><div class="stat-icon blue">📁</div><div><div class="stat-value" id="stat-total">—</div><div class="stat-label">Total Projects</div></div></div>
+      <div class="stat-card"><div class="stat-icon orange">⏳</div><div><div class="stat-value" id="stat-pending">—</div><div class="stat-label">Pending</div></div></div>
+      <div class="stat-card"><div class="stat-icon purple">🔍</div><div><div class="stat-value" id="stat-reviewing">—</div><div class="stat-label">Under Review</div></div></div>
+      <div class="stat-card"><div class="stat-icon green">✅</div><div><div class="stat-value" id="stat-reviewed">—</div><div class="stat-label">Reviewed</div></div></div>
+    </div>
+    <!-- All Projects -->
+    <div id="all-projects">
+      <div class="filter-bar">
+        <div class="search-box" style="flex:1;"><span class="search-icon">🔍</span>
+          <input type="text" id="search-input" class="form-control" placeholder="Search by title or student…" oninput="filterProjects()" style="padding-left:2.5rem;"/>
+        </div>
+        <select id="status-filter" class="form-control form-select" onchange="filterProjects()" style="width:auto;">
+          <option value="all">All Status</option>
+          <option value="pending">Pending</option>
+          <option value="under_review">Under Review</option>
+          <option value="reviewed">Reviewed</option>
+          <option value="approved">Approved</option>
+          <option value="rejected">Rejected</option>
+        </select>
+      </div>
+      <div class="card">
+        <div class="table-wrapper">
+          <table>
+            <thead><tr><th>Project</th><th>Student</th><th>Ver.</th><th>Status</th><th>Marks</th><th>Deadline</th><th>Actions</th></tr></thead>
+            <tbody id="projects-tbody"><tr><td colspan="7" class="text-center" style="padding:2rem;color:var(--text-muted);">Loading…</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!-- My Reviews -->
+    <div id="my-reviews" class="hidden">
+      <h3 class="mb-2">My Reviews</h3>
+      <div id="reviews-list"><div class="page-loading"><div class="spinner" style="border-color:#e2e8f0;border-top-color:#4f46e5;width:36px;height:36px;"></div></div></div>
+    </div>
+  </main>
+</div>
+<!-- Review Modal -->
+<div class="modal-overlay" id="review-modal">
+  <div class="modal" style="max-width:600px;">
+    <div class="modal-header"><div class="modal-title">✍️ Submit Review</div><button class="modal-close" onclick="closeModal('review-modal')">✕</button></div>
+    <div class="modal-body">
+      <div id="review-project-info" style="background:#f8fafc;padding:.875rem 1rem;border-radius:8px;font-size:.9rem;margin-bottom:1rem;"></div>
+      <div id="review-alert" class="hidden"></div>
+      <div class="form-group">
+        <label class="form-label">Comment <span class="required">*</span></label>
+        <textarea id="review-comment" class="form-control" rows="3" placeholder="Your feedback…"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Detailed Feedback</label>
+        <textarea id="review-feedback" class="form-control" rows="3" placeholder="Suggestions, references…"></textarea>
+      </div>
+      <div class="grid-2">
+        <div class="form-group">
+          <label class="form-label">Marks (0–100)</label>
+          <input type="number" id="review-marks" class="form-control" min="0" max="100" placeholder="Score"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Decision <span class="required">*</span></label>
+          <select id="review-status" class="form-control form-select">
+            <option value="reviewed">Reviewed</option>
+            <option value="approved">Approved ✅</option>
+            <option value="rejected">Rejected ❌</option>
+            <option value="resubmit">Needs Resubmission 🔄</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('review-modal')">Cancel</button>
+      <button class="btn btn-primary" id="review-submit-btn" onclick="submitReview()">✅ Submit Review</button>
+    </div>
+  </div>
+</div>
+<!-- Detail Modal -->
+<div class="modal-overlay" id="detail-modal">
+  <div class="modal" style="max-width:700px;">
+    <div class="modal-header"><div class="modal-title" id="detail-title">Project Details</div><button class="modal-close" onclick="closeModal('detail-modal')">✕</button></div>
+    <div class="modal-body" id="detail-body">Loading…</div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('detail-modal')">Close</button>
+      <button class="btn btn-primary" id="detail-review-btn">✍️ Write Review</button>
+    </div>
+  </div>
+</div>
+<script src="js/api.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/teacher.js"></script>
+</body>
+</html>
