@@ -1,5 +1,5 @@
 /* ── All backend API calls ── */
-const API_BASE = '/api';
+const API_BASE = 'https://project-submission-system-1.onrender.com';
 
 const getToken = () => localStorage.getItem('token');
 
